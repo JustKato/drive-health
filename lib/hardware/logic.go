@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func GetSystemHardDrives() ([]HardDrive, error) {
+func GetSystemHardDrives() ([]*HardDrive, error) {
 
 	// Execute the lsblk command to get detailed block device information
 	cmd := exec.Command("lsblk", "-d", "-o", "NAME,TRAN,SIZE,MODEL,SERIAL,TYPE")
@@ -20,7 +20,7 @@ func GetSystemHardDrives() ([]HardDrive, error) {
 		return nil, err
 	}
 
-	var hardDrives []HardDrive
+	var hardDrives []*HardDrive
 
 	// Scan the output line by line
 	scanner := bufio.NewScanner(&out)
@@ -40,7 +40,7 @@ func GetSystemHardDrives() ([]HardDrive, error) {
 
 		// Filter out nvme drives (M.2)
 		if cols[1] != "nvme" {
-			hd := HardDrive{
+			hd := &HardDrive{
 				Name:        cols[0],
 				Transport:   cols[1],
 				Size:        cols[2],
