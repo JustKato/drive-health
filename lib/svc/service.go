@@ -126,6 +126,8 @@ func RunService() {
 			if err != nil {
 				fmt.Printf("Memory Dump Error: %s", err)
 			}
+
+			fmt.Println("Saved Snapshots to file")
 		}
 	}()
 }

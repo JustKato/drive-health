@@ -12,7 +12,7 @@ func GetConfiguration() DHConfig {
 
 	return DHConfig{
 		DiskFetchFrequency:  5,
-		MemoryDumpFrequency: 36,
+		MemoryDumpFrequency: 16,
 		MaxHistoryAge:       2592000,
 	}
 
