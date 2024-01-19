@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"tea.chunkbyte.com/kato/drive-health/lib/hardware"
+	"tea.chunkbyte.com/kato/drive-health/lib/svc"
 )
 
 func setupApi(r *gin.Engine) {
@@ -29,6 +30,12 @@ func setupApi(r *gin.Engine) {
 			"message": "Disk List",
 			"disks":   disks,
 		})
+	})
+
+	api.GET("/snapshots", func(ctx *gin.Context) {
+		snapshots := svc.GetHardwareSnapshot()
+
+		ctx.JSON(http.StatusOK, snapshots)
 	})
 
 }

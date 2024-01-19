@@ -3,9 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drive Health</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Drive Health Dashboard</title>
 </head>
 <body>
-    
+    <div class="container">
+        <h1>Drive Health Dashboard</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Transport</th>
+                    <th>Size</th>
+                    <th>Model</th>
+                    <th>Serial</th>
+                    <th>Type</th>
+                    <th>Temperature</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .drives}}
+                <tr>
+                    <td>{{.Name}}</td>
+                    <td>{{.Transport}}</td>
+                    <td>{{.Size}}</td>
+                    <td>{{.Model}}</td>
+                    <td>{{.Serial}}</td>
+                    <td>{{.Type}}</td>
+                    <td>{{.Temperature}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
