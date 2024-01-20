@@ -11,30 +11,26 @@
         <h1>Drive Health Dashboard</h1>
         <table>
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Transport</th>
-                    <th>Size</th>
-                    <th>Model</th>
-                    <th>Serial</th>
-                    <th>Type</th>
-                    <th>Temperature</th>
-                </tr>
+                <!-- ... table headers ... -->
             </thead>
-            <tbody>
-                {{range .drives}}
-                <tr>
-                    <td>{{.Name}}</td>
-                    <td>{{.Transport}}</td>
-                    <td>{{.Size}}</td>
-                    <td>{{.Model}}</td>
-                    <td>{{.Serial}}</td>
-                    <td>{{.Type}}</td>
-                    <td>{{.Temperature}}</td>
-                </tr>
-                {{end}}
+            <tbody id="disk-table-body">
+                <!-- Data will be populated here by JavaScript -->
             </tbody>
         </table>
+
+        <hr>
+
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw; overflow-x: scroll;">
+            <canvas id="temperatureChart"></canvas>
+        </div>
+        
+
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@latest"></script>
+
+    <script src="/static/main.js"></script>
 </body>
 </html>

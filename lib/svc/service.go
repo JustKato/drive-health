@@ -104,16 +104,12 @@ func RunService() {
 
 	// Snapshot taking routine
 	go func() {
+		waitTime := time.Duration(config.GetConfiguration().DiskFetchFrequency) * time.Second
 		for {
-			time.Sleep(time.Duration(config.GetConfiguration().DiskFetchFrequency) * time.Second)
-			data, err := TakeHardwareSnapshot()
+			time.Sleep(waitTime)
+			_, err := TakeHardwareSnapshot()
 			if err != nil {
 				fmt.Printf("Hardware Fetch Error: %s", err)
-			} else {
-				fmt.Println("Got Snapshot for " + data.TimeStamp.Format("02/01/2006"))
-				for _, hdd := range data.HDD {
-					fmt.Printf("%s[%s]: %v\n", hdd.Model, hdd.Size, hdd.Temperature)
-				}
 			}
 		}
 	}()
@@ -121,13 +117,12 @@ func RunService() {
 	// Periodic saving routine
 	go func() {
 		for {
-			time.Sleep(time.Duration(config.GetConfiguration().MemoryDumpFrequency) * time.Second)
+			waitTime := time.Duration(config.GetConfiguration().MemoryDumpFrequency) * time.Second
+			time.Sleep(waitTime)
 			err := SaveSnapshotsToFile()
 			if err != nil {
 				fmt.Printf("Memory Dump Error: %s", err)
 			}
-
-			fmt.Println("Saved Snapshots to file")
 		}
 	}()
 }

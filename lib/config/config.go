@@ -1,19 +1,48 @@
 package config
 
+import (
+	"log"
+	"os"
+	"strconv"
+
+	"github.com/joho/godotenv"
+)
+
 type DHConfig struct {
-	DiskFetchFrequency  int `json:"diskFetchFrequency" comment:"How often should a snapshot be taken of the current state of the disks"`
-	MemoryDumpFrequency int `json:"memoryDumpFrequency" comment:"How often should we save the snapshots from memory to disk"`
-	MaxHistoryAge       int
+	DiskFetchFrequency  int `json:"diskFetchFrequency"`
+	MemoryDumpFrequency int `json:"memoryDumpFrequency"`
+	MaxHistoryAge       int `json:"maxHistoryAge"`
 }
 
 func GetConfiguration() DHConfig {
-
-	// TODO: Read from os.environment or simply load the defaults
-
-	return DHConfig{
-		DiskFetchFrequency:  5,
-		MemoryDumpFrequency: 16,
-		MaxHistoryAge:       2592000,
+	// Load .env file if it exists
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found")
 	}
 
+	config := DHConfig{
+		DiskFetchFrequency:  5,       // default value
+		MemoryDumpFrequency: 60,      // default value
+		MaxHistoryAge:       2592000, // default value
+	}
+
+	if val, exists := os.LookupEnv("DISK_FETCH_FREQUENCY"); exists {
+		if intValue, err := strconv.Atoi(val); err == nil {
+			config.DiskFetchFrequency = intValue
+		}
+	}
+
+	if val, exists := os.LookupEnv("MEMORY_DUMP_FREQUENCY"); exists {
+		if intValue, err := strconv.Atoi(val); err == nil {
+			config.MemoryDumpFrequency = intValue
+		}
+	}
+
+	if val, exists := os.LookupEnv("MAX_HISTORY_AGE"); exists {
+		if intValue, err := strconv.Atoi(val); err == nil {
+			config.MaxHistoryAge = intValue
+		}
+	}
+
+	return config
 }
