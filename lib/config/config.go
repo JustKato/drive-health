@@ -12,6 +12,7 @@ type DHConfig struct {
 	DiskFetchFrequency  int `json:"diskFetchFrequency"`
 	MemoryDumpFrequency int `json:"memoryDumpFrequency"`
 	MaxHistoryAge       int `json:"maxHistoryAge"`
+	Listen              string
 }
 
 func GetConfiguration() DHConfig {
@@ -24,6 +25,8 @@ func GetConfiguration() DHConfig {
 		DiskFetchFrequency:  5,       // default value
 		MemoryDumpFrequency: 60,      // default value
 		MaxHistoryAge:       2592000, // default value
+
+		Listen: ":8080",
 	}
 
 	if val, exists := os.LookupEnv("DISK_FETCH_FREQUENCY"); exists {
@@ -42,6 +45,10 @@ func GetConfiguration() DHConfig {
 		if intValue, err := strconv.Atoi(val); err == nil {
 			config.MaxHistoryAge = intValue
 		}
+	}
+
+	if val, exists := os.LookupEnv("LISTEN"); exists {
+		config.Listen = val
 	}
 
 	return config

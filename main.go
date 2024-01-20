@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"tea.chunkbyte.com/kato/drive-health/lib/config"
 	"tea.chunkbyte.com/kato/drive-health/lib/svc"
 	"tea.chunkbyte.com/kato/drive-health/lib/web"
 )
@@ -20,7 +21,7 @@ func main() {
 	router := web.SetupRouter()
 
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    config.GetConfiguration().Listen,
 		Handler: router,
 	}
 
