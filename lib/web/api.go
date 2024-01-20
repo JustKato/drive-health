@@ -1,7 +1,6 @@
 package web
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,8 +20,7 @@ func setupApi(r *gin.Engine) {
 
 		if ctx.Request.URL.Query().Get("temp") != "" {
 			for _, d := range disks {
-				temp := d.GetTemperature(true)
-				fmt.Printf("Disk Temp: %v", temp)
+				d.GetTemperature(true)
 			}
 		}
 
