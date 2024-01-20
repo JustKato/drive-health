@@ -39,7 +39,7 @@ func GetSystemHardDrives() ([]*HardDrive, error) {
 		}
 
 		// Filter out nvme drives (M.2)
-		if cols[1] != "nvme" {
+		if cols[1] != "nvme" && cols[5] != "Device" {
 			hd := &HardDrive{
 				Name:        cols[0],
 				Transport:   cols[1],
