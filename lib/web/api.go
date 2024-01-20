@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"tea.chunkbyte.com/kato/drive-health/lib/hardware"
@@ -9,18 +10,22 @@ import (
 )
 
 func setupApi(r *gin.Engine) {
-	api := r.Group("/v1/api")
+	api := r.Group("/api/v1")
 
 	api.GET("/disks", func(ctx *gin.Context) {
+
+		olderThan := time.Now().Add(time.Minute * time.Duration(10) * -1)
+		newerThan := time.Now()
+
 		// Fetch the disk list
-		disks, err := hardware.GetSystemHardDrives()
+		disks, err := hardware.GetSystemHardDrives(svc.GetDatabaseRef(), &olderThan, &newerThan)
 		if err != nil {
 			ctx.Error(err)
 		}
 
 		if ctx.Request.URL.Query().Get("temp") != "" {
 			for _, d := range disks {
-				d.GetTemperature(true)
+				d.GetTemperature()
 			}
 		}
 
@@ -28,12 +33,6 @@ func setupApi(r *gin.Engine) {
 			"message": "Disk List",
 			"disks":   disks,
 		})
-	})
-
-	api.GET("/snapshots", func(ctx *gin.Context) {
-		snapshots := svc.GetHardwareSnapshot()
-
-		ctx.JSON(http.StatusOK, snapshots)
 	})
 
 }

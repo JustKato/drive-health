@@ -9,10 +9,10 @@ import (
 )
 
 type DHConfig struct {
-	DiskFetchFrequency  int `json:"diskFetchFrequency"`
-	MemoryDumpFrequency int `json:"memoryDumpFrequency"`
-	MaxHistoryAge       int `json:"maxHistoryAge"`
-	Listen              string
+	DiskFetchFrequency int `json:"diskFetchFrequency"`
+	MaxHistoryAge      int `json:"maxHistoryAge"`
+	DatabaseFilePath   string
+	Listen             string
 }
 
 func GetConfiguration() DHConfig {
@@ -22,9 +22,9 @@ func GetConfiguration() DHConfig {
 	}
 
 	config := DHConfig{
-		DiskFetchFrequency:  5,       // default value
-		MemoryDumpFrequency: 60,      // default value
-		MaxHistoryAge:       2592000, // default value
+		DiskFetchFrequency: 5,       // default value
+		MaxHistoryAge:      2592000, // default value
+		DatabaseFilePath:   "./data.db",
 
 		Listen: ":8080",
 	}
@@ -32,12 +32,6 @@ func GetConfiguration() DHConfig {
 	if val, exists := os.LookupEnv("DISK_FETCH_FREQUENCY"); exists {
 		if intValue, err := strconv.Atoi(val); err == nil {
 			config.DiskFetchFrequency = intValue
-		}
-	}
-
-	if val, exists := os.LookupEnv("MEMORY_DUMP_FREQUENCY"); exists {
-		if intValue, err := strconv.Atoi(val); err == nil {
-			config.MemoryDumpFrequency = intValue
 		}
 	}
 
@@ -49,6 +43,10 @@ func GetConfiguration() DHConfig {
 
 	if val, exists := os.LookupEnv("LISTEN"); exists {
 		config.Listen = val
+	}
+
+	if val, exists := os.LookupEnv("DATABASE_FILE_PATH"); exists {
+		config.DatabaseFilePath = val
 	}
 
 	return config

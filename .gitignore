@@ -1,3 +1,4 @@
 snapshots.dat
 .env
 dist
+data.db

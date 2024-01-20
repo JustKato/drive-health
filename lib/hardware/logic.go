@@ -6,9 +6,12 @@ import (
 	"fmt"
 	"os/exec"
 	"strings"
+	"time"
+
+	"gorm.io/gorm"
 )
 
-func GetSystemHardDrives() ([]*HardDrive, error) {
+func GetSystemHardDrives(db *gorm.DB, olderThan *time.Time, newerThan *time.Time) ([]*HardDrive, error) {
 
 	// Execute the lsblk command to get detailed block device information
 	cmd := exec.Command("lsblk", "-d", "-o", "NAME,TRAN,SIZE,MODEL,SERIAL,TYPE")
@@ -20,7 +23,7 @@ func GetSystemHardDrives() ([]*HardDrive, error) {
 		return nil, err
 	}
 
-	var hardDrives []*HardDrive
+	var systemHardDrives []*HardDrive
 
 	// Scan the output line by line
 	scanner := bufio.NewScanner(&out)
@@ -39,17 +42,16 @@ func GetSystemHardDrives() ([]*HardDrive, error) {
 		}
 
 		// Filter out nvme drives (M.2)
-		if cols[1] != "nvme" && cols[5] != "Device" {
+		if cols[1] != "nvme" && cols[5] != "Device" && cols[1] != "usb" {
 			hd := &HardDrive{
-				Name:        cols[0],
-				Transport:   cols[1],
-				Size:        cols[2],
-				Model:       cols[3],
-				Serial:      cols[4],
-				Type:        cols[5],
-				Temperature: 0,
+				Name:      cols[0],
+				Transport: cols[1],
+				Size:      cols[2],
+				Model:     cols[3],
+				Serial:    cols[4],
+				Type:      cols[5],
 			}
-			hardDrives = append(hardDrives, hd)
+			systemHardDrives = append(systemHardDrives, hd)
 		}
 	}
 
@@ -58,5 +60,35 @@ func GetSystemHardDrives() ([]*HardDrive, error) {
 		return nil, err
 	}
 
-	return hardDrives, nil
+	var updatedHardDrives []*HardDrive
+
+	for _, sysHDD := range systemHardDrives {
+		var existingHD HardDrive
+		q := db.Where("serial = ?", sysHDD.Serial)
+
+		if newerThan != nil && olderThan != nil {
+			fmt.Printf("\nNewer Than: %s\n", newerThan)
+			fmt.Printf("Older Than: %s\n\n", olderThan)
+			q = q.Preload("Temperatures", "time_stamp < ? AND time_stamp > ?", newerThan, olderThan)
+		}
+
+		result := q.First(&existingHD)
+
+		if result.Error == gorm.ErrRecordNotFound {
+			// Hard drive not found, create new
+			db.Create(&sysHDD)
+			updatedHardDrives = append(updatedHardDrives, sysHDD)
+		} else {
+			// Hard drive found, update existing
+			existingHD.Name = sysHDD.Name
+			existingHD.Transport = sysHDD.Transport
+			existingHD.Size = sysHDD.Size
+			existingHD.Model = sysHDD.Model
+			existingHD.Type = sysHDD.Type
+			db.Save(&existingHD)
+			updatedHardDrives = append(updatedHardDrives, &existingHD)
+		}
+	}
+
+	return updatedHardDrives, nil
 }

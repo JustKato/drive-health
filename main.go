@@ -15,8 +15,8 @@ import (
 )
 
 func main() {
-	// Load existing snapshots from file
-	svc.UpdateHardwareSnapshotsFromFile()
+	// Init the database
+	svc.InitDB()
 
 	router := web.SetupRouter()
 
@@ -33,7 +33,7 @@ func main() {
 	}()
 
 	// Run the hardware service
-	svc.RunService()
+	svc.RunLoggerService()
 
 	// Setting up signal capturing
 	quit := make(chan os.Signal, 1)
