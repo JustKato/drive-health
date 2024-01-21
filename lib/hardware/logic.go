@@ -67,8 +67,6 @@ func GetSystemHardDrives(db *gorm.DB, olderThan *time.Time, newerThan *time.Time
 		q := db.Where("serial = ? AND model = ? AND type = ?", sysHDD.Serial, sysHDD.Model, sysHDD.Type)
 
 		if newerThan != nil && olderThan != nil {
-			fmt.Printf("\nNewer Than: %s\n", newerThan)
-			fmt.Printf("Older Than: %s\n\n", olderThan)
 			q = q.Preload("Temperatures", "time_stamp < ? AND time_stamp > ?", newerThan, olderThan)
 		}
 

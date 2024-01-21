@@ -1,45 +1,71 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #333;
-    color: #fff;
-    margin: 0;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Roboto:wght@100;300;400&display=swap');
+
+:root {
+    --bg0: #202327;
+    --bg1: #282d33;
+    --bg2: #31373f;
+
+    --fg0: #bbc0ca;
+    --fg0: #bbc0ca;
+
+    --acc: #bbc0ca;
+}
+
+:root {
+    color: var(--fg0);
+    font-family: "Noto Sans Mono", "Roboto", sans-serif;
+}
+
+html, body {
+    margin:  0;
     padding: 0;
+
+    width:  100vw;
+    height: 100vw;
+
+    overflow: auto;
+
+    background-color: var(--bg0);
 }
 
 .container {
-    width: 80%;
-    margin: auto;
+    margin: 1rem auto;
+    max-width: 768px;
+
+    border-radius: 8px;
+    border: 1px solid var(--fg1);
+
+    background-color: var(--bg1);
     overflow: hidden;
 }
 
-h1 {
-    text-align: center;
-    padding: 20px 0;
+.container-titlebar {
+    width: 100%;
+
+    background-color: var(--bg2);
 }
+
+.container .pad {
+    padding: .5rem 1rem;
+}
+
+.container-titlebar h4 {
+    padding: 0;
+    margin: 0;
+}
+
+
+/* Table */
 
 table {
     width: 100%;
-    margin-top: 20px;
     border-collapse: collapse;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
+table thead tr {
+    border-bottom: 1px solid var(--bg2);
 }
 
-th, td {
-    text-align: left;
-    padding: 8px;
-}
-
-th {
-    background-color: #555;
-}
-
-tr:nth-child(even) {
-    background-color: #666;
-}
-
-tr:hover {
-    background-color: #555;
+.graph-image {
+    max-width: 100%;
 }
