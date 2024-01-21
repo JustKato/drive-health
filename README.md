@@ -4,6 +4,8 @@ Drive Health is a program written in golang to help with tracking and monitoring
 
 This tool has been created by [me](https://danlegt.com) with the purpose of installing it in different servers I own with different configurations to help keep track of the temperature of different hard-disks, ssds, nvme drives, etc... The testing has been very limited to only 4 different computers and not on laptops so expect some mishaps.
 
+![UI Example](./media/design_v1.webp)
+
 ## ❗Disclaimer
 
 I'm not exactly a linux hardware wizard, so I honestly have no clue about a lot of things and I myself can tell there's a lot to improve upon and that there's a lot of other things missing that are a little bit more obscure, I personally don't currently own any m.2 sata drives to test the code on, or many of the other drive types, I have only tested on HDD, SSD and NVMe drives, any issues opened would help me so much!
