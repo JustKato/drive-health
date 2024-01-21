@@ -21,7 +21,7 @@ type DHConfig struct {
 func GetConfiguration() DHConfig {
 	config := DHConfig{
 		DiskFetchFrequency:      5,
-		CleanupServiceFrequency: 60,
+		CleanupServiceFrequency: 3600,
 		MaxHistoryAge:           2592000,
 		DatabaseFilePath:        "./data.sqlite",
 		IdentityUsername:        "admin",
