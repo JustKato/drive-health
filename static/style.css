@@ -5,6 +5,7 @@
     --bg1: #282d33;
     --bg2: #31373f;
     --bg3: #3e4248;
+    --bg4: #1a1c1f;
 
     --fg0: #bbc0ca;
     --fg1: #434c56;
@@ -88,6 +89,7 @@ input {
     color: var(--fg0);
 
     border: 1px solid var(--fg1);
+    border-radius: 4px;
 }
 
 .btn {
@@ -98,14 +100,14 @@ input {
     border: 1px solid var(--fg1);
     border-radius: 6px;
 
-    background-color: var(--bg3);
+    background-color: var(--bg4);
     color: var(--fg0);
 
     cursor: pointer;
 }
 
 .btn:hover {
-    background-color: var(--bg2);
+    background-color: var(--bg3);
 }
 
 .input-grp {
@@ -122,10 +124,11 @@ input {
     display: flex;
     flex-flow: wrap;
 
-    align-items: center;
-    justify-content: space-evenly;
-
     width: 100%;
+}
+
+.graph-controls input:nth-child(0) {
+    margin-right: 1rem;
 }
 
 .controls-panel {
