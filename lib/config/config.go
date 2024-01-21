@@ -17,6 +17,8 @@ type DHConfig struct {
 	IdentityUsername string `json:"identityUsername"`
 	IdentityPassword string `json:"identityPassword"`
 
+	IsDocker bool `json:isDocker`
+
 	DebugMode bool `json:"debugMode"`
 }
 
@@ -35,6 +37,8 @@ func GetConfiguration() *DHConfig {
 		DatabaseFilePath:        "./data.sqlite",
 		IdentityUsername:        "admin",
 		IdentityPassword:        "admin",
+
+		IsDocker: false,
 
 		Listen: ":8080",
 	}
@@ -76,6 +80,14 @@ func GetConfiguration() *DHConfig {
 	if val, exists := os.LookupEnv("DEBUG_MODE"); exists {
 		if isDebug, err := strconv.ParseBool(val); err == nil {
 			config.DebugMode = isDebug
+		}
+	}
+
+	if val, exists := os.LookupEnv("IS_DOCKER"); exists {
+		if isDocker, err := strconv.ParseBool(val); err == nil {
+			config.IsDocker = isDocker
+
+			config.DatabaseFilePath = "/data/data.sqlite"
 		}
 	}
 

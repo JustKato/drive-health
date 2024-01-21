@@ -3,3 +3,4 @@ snapshots.dat
 dist
 data.db
 data.sqlite
+dev_data
