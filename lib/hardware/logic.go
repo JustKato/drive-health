@@ -42,7 +42,7 @@ func GetSystemHardDrives(db *gorm.DB, olderThan *time.Time, newerThan *time.Time
 		}
 
 		// Filter out nvme drives (M.2)
-		if cols[1] != "nvme" && cols[5] != "Device" && cols[1] != "usb" {
+		if cols[1] != "usb" {
 			hd := &HardDrive{
 				Name:      cols[0],
 				Transport: cols[1],
