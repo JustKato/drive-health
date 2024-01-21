@@ -45,3 +45,11 @@ Currently the program does not depend on any hardware library as I couldn't find
 
 ### Why not just run as root?
 I really, really, **really** want to avoid asking people to run **ANY** program I write as root and even try and prevent that from happening since that's how things can go bad, especially because I am runnig actions over hardware items. I think you can see how easy it is for a mistake or a **malicious attack** to easily deal damage
+
+## Support & Contribution
+
+For support, bug reports, or feature requests, please open an issue on the [GitHub repository](https://github.com/JustKato/drive-health/issues). Contributions are welcome! Fork the repository, make your changes, and submit a pull request.
+
+## License
+
+This project is licensed under the [Apache License 2.0](./LICENSE).

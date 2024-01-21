@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/JustKato/drive-health/lib/hardware"
+	"github.com/JustKato/drive-health/lib/svc"
 	"github.com/gin-gonic/gin"
-	"tea.chunkbyte.com/kato/drive-health/lib/hardware"
-	"tea.chunkbyte.com/kato/drive-health/lib/svc"
 )
 
 func setupApi(r *gin.Engine) {

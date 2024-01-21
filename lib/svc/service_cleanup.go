@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"tea.chunkbyte.com/kato/drive-health/lib/config"
-	"tea.chunkbyte.com/kato/drive-health/lib/hardware"
+	"github.com/JustKato/drive-health/lib/config"
+	"github.com/JustKato/drive-health/lib/hardware"
 )
 
 // Delete all thermal entries that are older than X amount of seconds

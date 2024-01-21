@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/JustKato/drive-health/lib/config"
+	"github.com/JustKato/drive-health/lib/hardware"
 	"github.com/wcharczuk/go-chart/v2"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"tea.chunkbyte.com/kato/drive-health/lib/config"
-	"tea.chunkbyte.com/kato/drive-health/lib/hardware"
 )
 
 var db *gorm.DB

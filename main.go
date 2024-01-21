@@ -9,10 +9,10 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/JustKato/drive-health/lib/config"
+	"github.com/JustKato/drive-health/lib/svc"
+	"github.com/JustKato/drive-health/lib/web"
 	"github.com/joho/godotenv"
-	"tea.chunkbyte.com/kato/drive-health/lib/config"
-	"tea.chunkbyte.com/kato/drive-health/lib/svc"
-	"tea.chunkbyte.com/kato/drive-health/lib/web"
 )
 
 func main() {

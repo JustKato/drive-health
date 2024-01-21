@@ -1,4 +1,4 @@
-module tea.chunkbyte.com/kato/drive-health
+module github.com/JustKato/drive-health
 
 go 1.21.6
 

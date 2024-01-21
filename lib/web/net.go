@@ -1,8 +1,8 @@
 package web
 
 import (
+	"github.com/JustKato/drive-health/lib/config"
 	"github.com/gin-gonic/gin"
-	"tea.chunkbyte.com/kato/drive-health/lib/config"
 )
 
 func SetupRouter() *gin.Engine {

@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/JustKato/drive-health/lib/config"
 	"gorm.io/gorm"
-	"tea.chunkbyte.com/kato/drive-health/lib/config"
 )
 
 func GetSystemHardDrives(db *gorm.DB, olderThan *time.Time, newerThan *time.Time) ([]*HardDrive, error) {
