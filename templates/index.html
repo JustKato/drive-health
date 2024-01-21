@@ -7,7 +7,7 @@
     <title>Drive Health Dashboard</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container bordered">
 
         <div class="container-titlebar">
             <div class="pad">
@@ -57,7 +57,7 @@
 
     </div>
 
-    <div class="container">
+    <div class="container bordered">
 
         <div class="container-titlebar">
             <div class="pad">
@@ -68,11 +68,13 @@
             <div class="pad">
                 {{ if len .drives }}
                     {{ range .drives }}
-                        <div id="disk-temp-{{ .ID }}">
+                        <div class="disk-graph-entry bordered" id="disk-temp-{{ .ID }}">
+                            <h4>{{.Name}}:{{.Serial}} [{{.Size}}]</h4>
                             <a href="/api/v1/disks/{{.ID}}/chart" target="_blank">
                                 <img class="graph-image" src="/api/v1/disks/{{.ID}}/chart" alt="{{ .Model }} Image">
                             </a>
                         </div>
+                        <br>
                     {{ end }}
                 {{ else }}
                     <p>No hard drives found.</p>

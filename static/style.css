@@ -4,9 +4,10 @@
     --bg0: #202327;
     --bg1: #282d33;
     --bg2: #31373f;
+    --bg3: #3e4248;
 
     --fg0: #bbc0ca;
-    --fg0: #bbc0ca;
+    --fg1: #434c56;
 
     --acc: #bbc0ca;
 }
@@ -21,7 +22,6 @@ html, body {
     padding: 0;
 
     width:  100vw;
-    height: 100vw;
 
     overflow: auto;
 
@@ -68,4 +68,12 @@ table thead tr {
 
 .graph-image {
     max-width: 100%;
+}
+
+.disk-graph-entry {
+    background-color: var(--bg3);
+
+    border-radius: 8px;
+
+    padding: .3rem .5rem;
 }
