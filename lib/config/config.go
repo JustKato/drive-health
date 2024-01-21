@@ -24,7 +24,7 @@ func GetConfiguration() DHConfig {
 	config := DHConfig{
 		DiskFetchFrequency: 5,       // default value
 		MaxHistoryAge:      2592000, // default value
-		DatabaseFilePath:   "./data.db",
+		DatabaseFilePath:   "./data.sqlite",
 
 		Listen: ":8080",
 	}

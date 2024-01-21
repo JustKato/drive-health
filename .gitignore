@@ -2,3 +2,4 @@ snapshots.dat
 .env
 dist
 data.db
+data.sqlite

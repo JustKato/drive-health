@@ -64,7 +64,7 @@ func GetSystemHardDrives(db *gorm.DB, olderThan *time.Time, newerThan *time.Time
 
 	for _, sysHDD := range systemHardDrives {
 		var existingHD HardDrive
-		q := db.Where("serial = ?", sysHDD.Serial)
+		q := db.Where("serial = ? AND model = ? AND type = ?", sysHDD.Serial, sysHDD.Model, sysHDD.Type)
 
 		if newerThan != nil && olderThan != nil {
 			fmt.Printf("\nNewer Than: %s\n", newerThan)

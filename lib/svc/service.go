@@ -16,7 +16,7 @@ func InitDB() {
 	var err error
 	dbPath := config.GetConfiguration().DatabaseFilePath
 	if dbPath == "" {
-		dbPath = "./data.db"
+		dbPath = "./data.sqlite"
 	}
 
 	db, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
