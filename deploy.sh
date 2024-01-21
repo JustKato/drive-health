@@ -29,7 +29,8 @@ echo_color green "All tests passed successfully."
 
 echo_color green "Starting the Docker build process with version $GIT_VERSION..."
 
-IMAGE_NAME="ghcr.io/JustKato/drive-health:$GIT_VERSION"
+LATEST_IMAGE_NAME="ghcr.io/justkato/drive-health:latest"
+IMAGE_NAME="ghcr.io/justkato/drive-health:$GIT_VERSION"
 echo_color yellow "Image to be built: $IMAGE_NAME"
 
 # Confirmation to build
@@ -38,6 +39,10 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
     # Building the Docker image
     echo "Building Docker image: $IMAGE_NAME"
     docker build --no-cache -t $IMAGE_NAME .
+
+    # Also tag this build as 'latest'
+    echo "Tagging image as latest: $LATEST_IMAGE_NAME"
+    docker tag $IMAGE_NAME $LATEST_IMAGE_NAME
 else
     echo_color red "Build cancelled."
     exit 1
@@ -49,6 +54,10 @@ if [[ "$push_response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
     # Pushing the image
     echo "Pushing image: $IMAGE_NAME"
     docker push $IMAGE_NAME
+
+    # Pushing the 'latest' image
+    echo "Pushing latest image: $LATEST_IMAGE_NAME"
+    docker push $LATEST_IMAGE_NAME
 else
     echo_color red "Push cancelled."
 fi
