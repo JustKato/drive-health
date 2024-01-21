@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  drive-health:
+    # Build the current image
+    image: ghcr.io/justkato/drive-health:latest
+    # Read straight from the .env file, or use the environment path
+    env_file:
+      - .env
+    volumes:
+      - ./dev_data:/data
+    # Setup application ports
+    ports:
+      - 8080:8080
