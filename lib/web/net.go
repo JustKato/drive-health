@@ -6,12 +6,15 @@ import (
 )
 
 func SetupRouter() *gin.Engine {
-	// Initialize the Gin engine
 	cfg := config.GetConfiguration()
-	r := gin.Default()
 
-	// Set gin to release
-	gin.SetMode(gin.ReleaseMode)
+	if !cfg.DebugMode {
+		// Set gin to release
+		gin.SetMode(gin.ReleaseMode)
+	}
+
+	// Initialize the Gin engine
+	r := gin.Default()
 
 	r.Use(BasicAuthMiddleware(cfg.IdentityUsername, cfg.IdentityPassword))
 

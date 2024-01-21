@@ -16,6 +16,8 @@ type DHConfig struct {
 
 	IdentityUsername string `json:"identityUsername"`
 	IdentityPassword string `json:"identityPassword"`
+
+	DebugMode bool `json:"debugMode"`
 }
 
 func GetConfiguration() DHConfig {
@@ -62,6 +64,12 @@ func GetConfiguration() DHConfig {
 
 	if val, exists := os.LookupEnv("IDENTITY_PASSWORD"); exists {
 		config.IdentityPassword = val
+	}
+
+	if val, exists := os.LookupEnv("DEBUG_MODE"); exists {
+		if isDebug, err := strconv.ParseBool(val); err == nil {
+			config.DebugMode = isDebug
+		}
 	}
 
 	return config
