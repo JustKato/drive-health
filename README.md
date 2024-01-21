@@ -22,7 +22,7 @@ The program is straight forward to use really, edit the [.env](./.env) file and 
 ### Docker ( Recommended/Hassle free )
 
 ### SystemD
-```toml
+```ini
 [Unit]
 Description=Drive Health Service
 After=network.target
