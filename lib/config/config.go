@@ -13,6 +13,8 @@ type DHConfig struct {
 	MaxHistoryAge      int `json:"maxHistoryAge"`
 	DatabaseFilePath   string
 	Listen             string
+	IdentityUsername   string
+	IdentityPassword   string
 }
 
 func GetConfiguration() DHConfig {
@@ -25,6 +27,8 @@ func GetConfiguration() DHConfig {
 		DiskFetchFrequency: 5,       // default value
 		MaxHistoryAge:      2592000, // default value
 		DatabaseFilePath:   "./data.sqlite",
+		IdentityUsername:   "admin",
+		IdentityPassword:   "admin",
 
 		Listen: ":8080",
 	}
@@ -47,6 +51,14 @@ func GetConfiguration() DHConfig {
 
 	if val, exists := os.LookupEnv("DATABASE_FILE_PATH"); exists {
 		config.DatabaseFilePath = val
+	}
+
+	if val, exists := os.LookupEnv("IDENTITY_USERNAME"); exists {
+		config.IdentityUsername = val
+	}
+
+	if val, exists := os.LookupEnv("IDENTITY_PASSWORD"); exists {
+		config.IdentityPassword = val
 	}
 
 	return config

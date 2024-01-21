@@ -17,11 +17,12 @@ import (
 func main() {
 	// Init the database
 	svc.InitDB()
+	cfg := config.GetConfiguration()
 
 	router := web.SetupRouter()
 
 	srv := &http.Server{
-		Addr:    config.GetConfiguration().Listen,
+		Addr:    cfg.Listen,
 		Handler: router,
 	}
 
