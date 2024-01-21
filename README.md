@@ -8,7 +8,7 @@ This tool has been created by [me](https://danlegt.com) with the purpose of inst
 
 I'm not exactly a linux hardware wizard, so I honestly have no clue about a lot of things and I myself can tell there's a lot to improve upon and that there's a lot of other things missing that are a little bit more obscure, I personally don't currently own any m.2 sata drives to test the code on, or many of the other drive types, I have only tested on HDD, SSD and NVMe drives, any issues opened would help me so much!
 
-## Requirements
+## ❗Requirements
 1. A linux machine, this will NOT work on macOS or on Windows, it's meant to be ran on servers as a service with which administrators can privately connect to for temperature logging.
 
 2. Please make sure you have the [**drivetemp kernel drive**](https://docs.kernel.org/hwmon/drivetemp.html) you can check this by running `sudo modprobe drivetemp`.
