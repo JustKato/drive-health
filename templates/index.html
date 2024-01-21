@@ -99,8 +99,9 @@
                 <!-- Drives -->
                 {{ if len .drives }}
                     {{ range .drives }}
-                        <div class="disk-graph-entry bordered" id="disk-temp-{{ .ID }}">
-                            <h4>{{.Name}}:{{.Serial}} [{{.Size}}]</h4>
+                        <div class="disk-graph-entry bordered" id="disk-temp-{{ .ID }}" style="position: relative;">
+                            <div class="badge" type="{{.Type}}" style="position: absolute; top: 1rem; right: 1rem;">/dev/{{.Name}}</div>
+                            <h4>{{.Model}}:{{.HWID}} <span class="grooved">{{.Size}}</span></h4>
                             <a href="/api/v1/disks/{{.ID}}/chart" target="_blank">
                                 <img class="graph-image" src="/api/v1/disks/{{.ID}}/chart?older={{ $older }}&newer={{ $newer }}" alt="{{ .Model }} Image">
                             </a>

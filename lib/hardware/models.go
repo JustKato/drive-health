@@ -2,9 +2,12 @@ package hardware
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+	"strconv"
+	"strings"
 	"time"
 
-	"github.com/anatol/smart.go"
 	"gorm.io/gorm"
 )
 
@@ -19,6 +22,7 @@ type HardDrive struct {
 	Model        string
 	Serial       string
 	Type         string
+	HWID         string
 	Temperatures []HardDriveTemperature `gorm:"foreignKey:HardDriveID"`
 }
 
@@ -39,26 +43,49 @@ type Snapshots struct {
 	List []*HardwareSnapshot
 }
 
-// Fetch the temperature of the device, optinally update the reference object
 func (h *HardDrive) GetTemperature() int {
-	// Fetch the device by name
-	disk, err := smart.Open("/dev/" + h.Name)
-	if err != nil {
-		fmt.Printf("Failed to open device %s: %s\n", h.Name, err)
-		return -1
-	}
-	defer disk.Close()
-
-	// Fetch SMART data
-	smartInfo, err := disk.ReadGenericAttributes()
-	if err != nil {
-		fmt.Printf("Failed to get SMART data for %s: %s\n", h.Name, err)
-		return -1
+	// Try HDD/SSD path
+	temp, found := h.getTemperatureFromPath("/sys/block/" + h.Name + "/device/hwmon/")
+	if found {
+		return temp
 	}
 
-	// Parse the temperature
-	temperature := int(smartInfo.Temperature)
+	// Try NVMe path
+	temp, found = h.getTemperatureFromPath("/sys/block/" + h.Name + "/device/")
+	if found {
+		return temp
+	}
 
-	// Return the found value
-	return temperature
+	fmt.Printf("[🛑] Failed to get temperature for %s\n", h.Name)
+	return -1
+}
+
+func (h *HardDrive) getTemperatureFromPath(basePath string) (int, bool) {
+	hwmonDirs, err := os.ReadDir(basePath)
+	if err != nil {
+		return 0, false
+	}
+
+	for _, dir := range hwmonDirs {
+		if strings.HasPrefix(dir.Name(), "hwmon") {
+			tempPath := filepath.Join(basePath, dir.Name(), "temp1_input")
+			if _, err := os.Stat(tempPath); err == nil {
+				tempBytes, err := os.ReadFile(tempPath)
+				if err != nil {
+					continue
+				}
+
+				tempStr := strings.TrimSpace(string(tempBytes))
+				temperature, err := strconv.Atoi(tempStr)
+				if err != nil {
+					continue
+				}
+
+				// Convert millidegree Celsius to degree Celsius
+				return temperature / 1000, true
+			}
+		}
+	}
+
+	return 0, false
 }

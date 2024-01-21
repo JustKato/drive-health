@@ -10,7 +10,17 @@
     --fg0: #bbc0ca;
     --fg1: #434c56;
 
-    --acc: #bbc0ca;
+    --acc1: #2aa3f4;
+    --acc1BG0: #2aa3f450;
+    --acc1BG1: #2aa3f430;
+
+    --acc2: #2af488;
+    --acc2BG0: #2af48850;
+    --acc2BG1: #2af48830;
+
+    --acc3: #f4e02a;
+    --acc3BG0: #f4e02a50;
+    --acc3BG1: #f4e02a30;
 }
 
 :root {
@@ -53,6 +63,41 @@ html, body {
 .container-titlebar h4 {
     padding: 0;
     margin: 0;
+}
+
+.badge {
+    font-size: 12px;
+    font-weight: bold;
+    padding: .1rem .4rem;
+
+    display: inline-block;
+    border-radius: 3px;
+
+    color: var(--acc1);
+    background-color: var(--acc1BG0);
+    border: 1px solid var(--acc1BG1);
+}
+
+.badge[type="HDD"] {
+    color: var(--acc2);
+    background-color: var(--acc2BG0);
+    border: 1px solid var(--acc2BG1);
+}
+
+.badge[type="NVMe"] {
+    color: var(--acc3);
+    background-color: var(--acc3BG0);
+    border: 1px solid var(--acc3BG1);
+}
+
+.grooved {
+    background-color: var(--bg0);
+    border: 1px solid var(--bg1);
+
+    font-size: 12px;
+    padding: .1rem .3rem;
+
+    border-radius: 4px;
 }
 
 

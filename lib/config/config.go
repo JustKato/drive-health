@@ -20,8 +20,15 @@ type DHConfig struct {
 	DebugMode bool `json:"debugMode"`
 }
 
-func GetConfiguration() DHConfig {
-	config := DHConfig{
+var config *DHConfig = nil
+
+func GetConfiguration() *DHConfig {
+
+	if config != nil {
+		return config
+	}
+
+	config = &DHConfig{
 		DiskFetchFrequency:      5,
 		CleanupServiceFrequency: 3600,
 		MaxHistoryAge:           2592000,
