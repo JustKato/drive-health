@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="/static/style.css">
     <title>Drive Health Dashboard</title>
 </head>
+
+{{ $older := .older }}
+{{ $newer := .newer }}
+
 <body>
     <div class="container bordered">
 
@@ -66,12 +70,39 @@
         </div>
         <div class="container-body">
             <div class="pad">
+
+                <!-- Controls -->
+                <div class="controls-panel">
+                    <div class="graph-controls">
+                        <span id="inp-older" style="display: none !important" hidden="true">{{ .older }}</span>
+                        <span id="inp-newer" style="display: none !important" hidden="true">{{ .newer }}</span>
+    
+                        <div class="input-grp">
+                            <label for="olderThan">From Date</label>
+                            <input id="olderThan" type="datetime-local" class="date-change-inp">
+                        </div>
+    
+                        <div class="input-grp">
+                            <label for="newerThan">To Date</label>
+                            <input id="newerThan" type="datetime-local" class="date-change-inp">
+                        </div>
+    
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn" onclick="applyDateInterval()" style="margin-top: 1rem;">
+                            Filter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Drives -->
                 {{ if len .drives }}
                     {{ range .drives }}
                         <div class="disk-graph-entry bordered" id="disk-temp-{{ .ID }}">
                             <h4>{{.Name}}:{{.Serial}} [{{.Size}}]</h4>
                             <a href="/api/v1/disks/{{.ID}}/chart" target="_blank">
-                                <img class="graph-image" src="/api/v1/disks/{{.ID}}/chart" alt="{{ .Model }} Image">
+                                <img class="graph-image" src="/api/v1/disks/{{.ID}}/chart?older={{ $older }}&newer={{ $newer }}" alt="{{ .Model }} Image">
                             </a>
                         </div>
                         <br>

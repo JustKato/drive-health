@@ -79,7 +79,7 @@ func GetDiskGraphImage(hddID int, newerThan *time.Time, olderThan *time.Time) (*
 	// Fetch by a combination of fields
 	q := db.Where("id = ?", hddID)
 
-	if newerThan == nil && olderThan == nil {
+	if newerThan == nil || olderThan == nil {
 		q = q.Preload("Temperatures")
 	} else {
 		q = q.Preload("Temperatures", "time_stamp < ? AND time_stamp > ?", newerThan, olderThan)

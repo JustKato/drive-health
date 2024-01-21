@@ -77,3 +77,64 @@ table thead tr {
 
     padding: .3rem .5rem;
 }
+
+
+/* Controls */
+
+input {
+    padding: .25rem .5rem;
+    font-size: 16px;
+    background-color: var(--bg3);
+    color: var(--fg0);
+
+    border: 1px solid var(--fg1);
+}
+
+.btn {
+    font-size: 16px;
+
+    padding: .5rem 1rem;
+
+    border: 1px solid var(--fg1);
+    border-radius: 6px;
+
+    background-color: var(--bg3);
+    color: var(--fg0);
+
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--bg2);
+}
+
+.input-grp {
+    display: flex;
+    flex-flow: column;
+}
+
+.input-grp label {
+    margin-bottom: .25rem;
+    font-weight: bold;
+}
+
+.graph-controls {
+    display: flex;
+    flex-flow: wrap;
+
+    align-items: center;
+    justify-content: space-evenly;
+
+    width: 100%;
+}
+
+.controls-panel {
+    display: flex;
+    flex-flow: column;
+
+    padding: 1rem 0;
+
+    border-bottom: 1px solid var(--fg1);
+    margin-bottom: 1rem;
+
+}

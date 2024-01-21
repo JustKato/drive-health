@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -26,7 +27,28 @@ func setupApi(r *gin.Engine) {
 			return
 		}
 
-		graphData, err := svc.GetDiskGraphImage(diskId, nil, nil)
+		var olderThan, newerThan *time.Time
+
+		if ot := ctx.Query("older"); ot != "" {
+			fmt.Printf("ot = %s\n", ot)
+			if otInt, err := strconv.ParseInt(ot, 10, 64); err == nil {
+				otTime := time.UnixMilli(otInt)
+				olderThan = &otTime
+			}
+		}
+
+		if nt := ctx.Query("newer"); nt != "" {
+			fmt.Printf("nt = %s\n", nt)
+			if ntInt, err := strconv.ParseInt(nt, 10, 64); err == nil {
+				ntTime := time.UnixMilli(ntInt)
+				newerThan = &ntTime
+			}
+		}
+
+		fmt.Printf("olderThan = %s\n", olderThan)
+		fmt.Printf("newerThan = %s\n", newerThan)
+
+		graphData, err := svc.GetDiskGraphImage(diskId, newerThan, olderThan)
 		if err != nil {
 			ctx.AbortWithStatusJSON(500, gin.H{
 				"error":   err.Error(),
