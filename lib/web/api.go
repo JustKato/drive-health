@@ -13,6 +13,7 @@ import (
 func setupApi(r *gin.Engine) {
 	api := r.Group("/api/v1")
 
+	// Fetch the chart image for the disk's temperature
 	api.GET("/disks/:diskid/chart", func(ctx *gin.Context) {
 		diskIDString := ctx.Param("diskid")
 		diskId, err := strconv.Atoi(diskIDString)
@@ -51,6 +52,7 @@ func setupApi(r *gin.Engine) {
 		}
 	})
 
+	// Get a list of all the disks
 	api.GET("/disks", func(ctx *gin.Context) {
 
 		olderThan := time.Now().Add(time.Minute * time.Duration(10) * -1)

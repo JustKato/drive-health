@@ -1,34 +1,31 @@
 package config
 
 import (
-	"log"
 	"os"
 	"strconv"
-
-	"github.com/joho/godotenv"
 )
 
 type DHConfig struct {
-	DiskFetchFrequency int `json:"diskFetchFrequency"`
-	MaxHistoryAge      int `json:"maxHistoryAge"`
-	DatabaseFilePath   string
-	Listen             string
-	IdentityUsername   string
-	IdentityPassword   string
+	CleanupServiceFrequency int `json:"cleanupServiceFrequency"`
+	DiskFetchFrequency      int `json:"diskFetchFrequency"`
+	MaxHistoryAge           int `json:"maxHistoryAge"`
+
+	DatabaseFilePath string `json:"databaseFilePath"`
+
+	Listen string `json:"listen"`
+
+	IdentityUsername string `json:"identityUsername"`
+	IdentityPassword string `json:"identityPassword"`
 }
 
 func GetConfiguration() DHConfig {
-	// Load .env file if it exists
-	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found")
-	}
-
 	config := DHConfig{
-		DiskFetchFrequency: 5,       // default value
-		MaxHistoryAge:      2592000, // default value
-		DatabaseFilePath:   "./data.sqlite",
-		IdentityUsername:   "admin",
-		IdentityPassword:   "admin",
+		DiskFetchFrequency:      5,
+		CleanupServiceFrequency: 60,
+		MaxHistoryAge:           2592000,
+		DatabaseFilePath:        "./data.sqlite",
+		IdentityUsername:        "admin",
+		IdentityPassword:        "admin",
 
 		Listen: ":8080",
 	}
@@ -36,6 +33,12 @@ func GetConfiguration() DHConfig {
 	if val, exists := os.LookupEnv("DISK_FETCH_FREQUENCY"); exists {
 		if intValue, err := strconv.Atoi(val); err == nil {
 			config.DiskFetchFrequency = intValue
+		}
+	}
+
+	if val, exists := os.LookupEnv("CLEANUP_SERVICE_FREQUENCY"); exists {
+		if intValue, err := strconv.Atoi(val); err == nil {
+			config.CleanupServiceFrequency = intValue
 		}
 	}
 

@@ -14,15 +14,16 @@ import (
 
 var db *gorm.DB
 
+// Initialize the database connection
 func InitDB() {
 	var err error
 	dbPath := config.GetConfiguration().DatabaseFilePath
-	if dbPath == "" {
-		dbPath = "./data.sqlite"
-	}
 
 	db, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
 	if err != nil {
+		// This should basically never happen, unless the path to the database
+		// is inaccessible, doesn't exist or there's no permission to it, which
+		// should and will crash the program
 		panic("failed to connect database")
 	}
 
@@ -30,10 +31,12 @@ func InitDB() {
 	db.AutoMigrate(&hardware.HardDrive{}, &hardware.HardDriveTemperature{})
 }
 
+// Fetch the open database pointer
 func GetDatabaseRef() *gorm.DB {
 	return db
 }
 
+// Log the temperature of the disks
 func LogDriveTemps() error {
 	drives, err := hardware.GetSystemHardDrives(db, nil, nil)
 	if err != nil {
@@ -52,8 +55,9 @@ func LogDriveTemps() error {
 	return nil
 }
 
+// Run the logging service, this will periodically log the temperature of the disks with the LogDriveTemps function
 func RunLoggerService() {
-	fmt.Println("Initializing Temperature Logging Service...")
+	fmt.Println("[🦝] Initializing Temperature Logging Service...")
 
 	tickTime := time.Duration(config.GetConfiguration().DiskFetchFrequency) * time.Second
 
@@ -63,12 +67,13 @@ func RunLoggerService() {
 			time.Sleep(tickTime)
 			err := LogDriveTemps()
 			if err != nil {
-				fmt.Printf("🛑 Temperature logging failed: %s\n", err)
+				fmt.Printf("[🛑] Temperature logging failed: %s\n", err)
 			}
 		}
 	}()
 }
 
+// Generate a PNG based upon a HDD id and a date range
 func GetDiskGraphImage(hddID int, newerThan *time.Time, olderThan *time.Time) (*bytes.Buffer, error) {
 	var hdd hardware.HardDrive
 	// Fetch by a combination of fields
