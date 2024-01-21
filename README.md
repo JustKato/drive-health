@@ -2,7 +2,7 @@
 
 Drive Health is a program written in golang to help with tracking and monitoring of your hardware's temperature.
 
-This tool has been created by [me](https://danlegt.com) with the purpose of installing it in different servers I own with different configurations to help keep track of the temperature of different hard-disks, ssds, nvme drives, etc... The testing has been very limited to only 4 different computers and not on laptops so expect some mishaps.
+This tool has been with the purpose of installing it in different servers I own with different configurations to help keep track of the temperature of different hard-disks, ssds, nvme drives, etc... The testing has been very limited to only 4 different computers and not on laptops so expect some mishaps.
 
 ![UI Example](./media/design_v1.webp)
 
