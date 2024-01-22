@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Drive Health Dashboard</title>
+</head>
+
+<body>
+    <div class="container bordered">
+
+        <div class="container-titlebar">
+            <div class="pad">
+                <h4>Available Disks</h4>
+            </div>
+        </div>
+
+        <div class="container-body">
+            <div class="pad">
+                {{ if len .drives }}
+                    <table id="disks-table">
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Name</td>
+                                <td>Model</td>
+                                <td>Serial</td>
+                                <td>Temperature</td>
+                            </tr>
+                        </thead>
+                        <tbody id="disk-table-body">
+                            {{ range .drives }}
+                                {{ $temp := .GetTemperature }}
+
+                                <tr>
+                                    <td>#{{ .ID }}</td>
+                                    <td> {{ .Name }}</td>
+                                    <td> {{ .Model }}</td>
+                                    <td> {{ .Serial }}</td>
+
+                                    {{ if gt $temp 50 }} <!-- Temperature greater than 50°C -->
+                                        <td style="color: red;">{{ $temp }}&deg;C</td>
+                                    {{ else if gt $temp 30 }} <!-- Temperature between 31°C and 50°C -->
+                                        <td style="color: orange;">{{ $temp }}&deg;C</td>
+                                    {{ else }} <!-- Temperature 30°C or below -->
+                                        <td style="color: lime;">{{ $temp }}&deg;C</td>
+                                    {{ end }}
+                                </tr>
+                            {{ end }}
+                        </tbody>
+                    </table>
+                {{ else }}
+                    <p>No hard drives found.</p>
+                {{ end }}
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

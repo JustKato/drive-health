@@ -11,14 +11,17 @@
     --fg1: #434c56;
 
     --acc1: #2aa3f4;
+    --acc1H: #0089e5;
     --acc1BG0: #2aa3f450;
     --acc1BG1: #2aa3f430;
 
     --acc2: #2af488;
+    --acc2H: #2af488;
     --acc2BG0: #2af48850;
     --acc2BG1: #2af48830;
 
     --acc3: #f4e02a;
+    --acc3H: #f4e02a;
     --acc3BG0: #f4e02a50;
     --acc3BG1: #f4e02a30;
 }
@@ -26,6 +29,17 @@
 :root {
     color: var(--fg0);
     font-family: "Noto Sans Mono", "Roboto", sans-serif;
+}
+
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+a:hover {
+    color: inherit;
+    text-decoration: inherit;
 }
 
 html, body {
@@ -153,6 +167,32 @@ input {
 
 .btn:hover {
     background-color: var(--bg3);
+}
+
+.btn-link {
+    color: var(--acc1);
+}
+
+.btn-link:hover {
+    color: var(--acc1H);
+}
+
+.info-button {
+    display: flex;
+
+    mask-image: url("/static/view-svgrepo-com.svg");
+    background: var(--fg0);
+
+    height: 26px;
+    width: 26px;
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
+}
+
+.info-button:hover {
+    mask-image: url("/static/view-alt-svgrepo-com.svg");
+    background-color: var(--acc1);
 }
 
 .input-grp {

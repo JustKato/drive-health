@@ -30,6 +30,7 @@
                                 <td>Model</td>
                                 <td>Serial</td>
                                 <td>Temperature</td>
+                                <td>Actions</td>
                             </tr>
                         </thead>
                         <tbody id="disk-table-body">
@@ -49,6 +50,9 @@
                                     {{ else }} <!-- Temperature 30°C or below -->
                                         <td style="color: lime;">{{ $temp }}&deg;C</td>
                                     {{ end }}
+                                    <td>
+                                        <a title="View Disk" class="info-button" href="/disk/{{ .ID }}"></a>
+                                    </td>
                                 </tr>
                             {{ end }}
                         </tbody>
