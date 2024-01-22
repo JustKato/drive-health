@@ -2,6 +2,8 @@
 FROM debian:bullseye
 ENV IS_DOCKER TRUE
 
+LABEL org.opencontainers.image.source https://github.com/JustKato/drive-health
+
 # Install build dependencies and runtime dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
