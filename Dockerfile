@@ -27,7 +27,7 @@ ENV GO111MODULE=on
 ENV DIST_DIR=/app
 
 # Create the directory and set it as the working directory
-WORKDIR $DIST_DIR
+WORKDIR /app
 
 # Copy the Go files and download dependencies
 COPY go.mod go.sum ./
