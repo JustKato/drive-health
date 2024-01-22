@@ -15,6 +15,21 @@ func setupFrontend(r *gin.Engine) {
 	r.LoadHTMLGlob("templates/*")
 	r.Static("/static", "./static")
 
+	r.GET("/disk/:id", func(ctx *gin.Context) {
+		id := ctx.Param("id")
+		var hdd hardware.HardDrive
+		tx := svc.GetDatabaseRef().Where("id = ?", id).Preload("Temperatures").First(&hdd)
+		if tx.Error != nil {
+			ctx.AbortWithError(500, tx.Error)
+			return
+		}
+
+		// Render the HTML template
+		ctx.HTML(http.StatusOK, "drive.html", gin.H{
+			"hdd": hdd,
+		})
+	})
+
 	// Set up a route for the root URL
 	r.GET("/", func(ctx *gin.Context) {
 		hardDrives, err := hardware.GetSystemHardDrives(svc.GetDatabaseRef(), nil, nil)
