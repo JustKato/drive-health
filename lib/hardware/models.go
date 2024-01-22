@@ -44,16 +44,19 @@ type Snapshots struct {
 }
 
 func (h *HardDrive) GetTemperature() int {
-	// Try HDD/SSD path
-	temp, found := h.getTemperatureFromPath("/sys/block/" + h.Name + "/device/hwmon/")
-	if found {
-		return temp
+
+	possiblePaths := []string{
+		"/sys/block/" + h.Name + "/device/hwmon/",
+		"/sys/block/" + h.Name + "/device/",
+		"/sys/block/" + h.Name + "/device/generic/device/",
 	}
 
-	// Try NVMe path
-	temp, found = h.getTemperatureFromPath("/sys/block/" + h.Name + "/device/")
-	if found {
-		return temp
+	for _, path := range possiblePaths {
+		// Try HDD/SSD path
+		temp, found := h.getTemperatureFromPath(path)
+		if found {
+			return temp
+		}
 	}
 
 	fmt.Printf("[🛑] Failed to get temperature for %s\n", h.Name)
