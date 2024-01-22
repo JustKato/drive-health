@@ -1,5 +1,5 @@
 # Build Stage
-FROM debian:bullseye
+FROM debian:bullseye-slim
 ENV IS_DOCKER TRUE
 
 LABEL org.opencontainers.image.source https://github.com/JustKato/drive-health
@@ -24,7 +24,6 @@ ENV PATH /usr/local/go/bin:$PATH
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:$PATH
 ENV GO111MODULE=on
-ENV DIST_DIR=/app
 
 # Create the directory and set it as the working directory
 WORKDIR /app

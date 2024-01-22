@@ -3,5 +3,6 @@
 !main.go
 !/lib
 !/templates
+!/static
 !/go.mod
 !/go.sum
