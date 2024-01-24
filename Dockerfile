@@ -1,5 +1,5 @@
-# Build Stage
-FROM debian:bullseye-slim
+# === Build Stage ===
+FROM debian:bullseye-slim AS builder
 ENV IS_DOCKER TRUE
 
 LABEL org.opencontainers.image.source https://github.com/JustKato/drive-health
@@ -42,6 +42,18 @@ RUN go build -o drive-health
 RUN apt-get purge -y gcc musl-dev libsqlite3-dev wget \
     && apt-get autoremove -y \
     && apt-get clean
+
+# === Final Stage ===
+FROM debian:bullseye-slim AS final
+
+# Set the environment variable
+ENV IS_DOCKER TRUE
+
+# Create the directory and set it as the working directory
+WORKDIR /app
+
+# Copy only the necessary files from the builder stage
+COPY --from=builder /app/drive-health .
 
 # Expose the necessary port
 EXPOSE 8080
