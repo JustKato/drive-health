@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Drive Health Dashboard</title>
+</head>
+
+{{ $older := .older }}
+{{ $newer := .newer }}
+
+<body>
+    <div class="container bordered">
+
+        <div class="container-titlebar">
+            <div class="pad">
+                <h4>Available Disks</h4>
+            </div>
+        </div>
+
+        <div class="container-body">
+            <div class="pad">
+                {{ if len .drives }}
+                    <table id="disks-table">
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Name</td>
+                                <td>Model</td>
+                                <td>Serial</td>
+                                <td>Temperature</td>
+                            </tr>
+                        </thead>
+                        <tbody id="disk-table-body">
+                            {{ range .drives }}
+                                {{ $temp := .GetTemperature }}
+
+                                <tr>
+                                    <td>#{{ .ID }}</td>
+                                    <td> {{ .Name }}</td>
+                                    <td> {{ .Model }}</td>
+                                    <td> {{ .Serial }}</td>
+
+                                    {{ if gt $temp 50 }} <!-- Temperature greater than 50°C -->
+                                        <td style="color: red;">{{ $temp }}&deg;C</td>
+                                    {{ else if gt $temp 30 }} <!-- Temperature between 31°C and 50°C -->
+                                        <td style="color: orange;">{{ $temp }}&deg;C</td>
+                                    {{ else }} <!-- Temperature 30°C or below -->
+                                        <td style="color: lime;">{{ $temp }}&deg;C</td>
+                                    {{ end }}
+                                </tr>
+                            {{ end }}
+                        </tbody>
+                    </table>
+                {{ else }}
+                    <p>No hard drives found.</p>
+                {{ end }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container bordered">
+
+        <div class="container-titlebar">
+            <div class="pad">
+                <h4>Temperature Graph</h4>
+            </div>
+        </div>
+        <div class="container-body">
+            <div class="pad">
+
+                <!-- Controls -->
+                <div class="controls-panel">
+                    <div class="graph-controls">
+                        <span id="inp-older" style="display: none !important" hidden="true">{{ .older }}</span>
+                        <span id="inp-newer" style="display: none !important" hidden="true">{{ .newer }}</span>
+    
+                        <div class="input-grp" style="margin-right: 1rem;">
+                            <label for="olderThan">From Date</label>
+                            <input id="olderThan" type="datetime-local" class="date-change-inp">
+                        </div>
+    
+                        <div class="input-grp">
+                            <label for="newerThan">To Date</label>
+                            <input id="newerThan" type="datetime-local" class="date-change-inp">
+                        </div>
+    
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn" onclick="applyDateInterval()" style="margin-top: 1rem;">
+                            Filter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Drives -->
+                {{ if len .drives }}
+                    {{ range .drives }}
+                        <div class="disk-graph-entry bordered" id="disk-temp-{{ .ID }}" style="position: relative;">
+                            <div class="badge" type="{{.Type}}" style="position: absolute; top: 1rem; right: 1rem;">/dev/{{.Name}}</div>
+                            <h4>{{.Model}}:{{.HWID}} <span class="grooved">{{.Size}}</span></h4>
+                            <a href="/api/v1/disks/{{.ID}}/chart" target="_blank">
+                                <img class="graph-image" src="/api/v1/disks/{{.ID}}/chart?older={{ $older }}&newer={{ $newer }}" alt="{{ .Model }} Image">
+                            </a>
+                        </div>
+                        <br>
+                    {{ end }}
+                {{ else }}
+                    <p>No hard drives found.</p>
+                {{ end }}
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/static/main.js"></script>
+</body>
+</html>
